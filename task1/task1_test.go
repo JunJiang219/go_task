@@ -97,3 +97,75 @@ func TestLongestCommonPrefix(t *testing.T) {
 		})
 	}
 }
+
+func TestPlusOne(t *testing.T) {
+	type test struct {
+		digits []int
+		want   []int
+	}
+
+	tests := map[string]test{
+		"t1": {digits: []int{1, 2, 3}, want: []int{1, 2, 4}},
+		"t2": {digits: []int{4, 3, 2, 1}, want: []int{4, 3, 2, 2}},
+		"t3": {digits: []int{9}, want: []int{1, 0}},
+	}
+
+	for name, tc := range tests {
+		got := PlusOne(tc.digits)
+		t.Run(name, func(t *testing.T) {
+			if !reflect.DeepEqual(got, tc.want) {
+				t.Errorf("name: %v, got: %v, want: %v", name, got, tc.want)
+			}
+		})
+	}
+}
+
+func TestRemoveDuplicates(t *testing.T) {
+	type test struct {
+		nums  []int
+		want1 int
+		want2 []int
+	}
+
+	tests := map[string]test{
+		"t1": {nums: []int{1, 1, 2}, want1: 2, want2: []int{1, 2}},
+		"t2": {nums: []int{0, 0, 1, 1, 1, 2, 2, 3, 3, 4}, want1: 5, want2: []int{0, 1, 2, 3, 4}},
+	}
+
+	for name, tc := range tests {
+		got := RemoveDuplicates(tc.nums)
+		t.Run(name, func(t *testing.T) {
+			if !reflect.DeepEqual(got, tc.want1) {
+				t.Errorf("[num error] name: %v, got: %v, want1: %v, want2: %v", name, got, tc.want1, tc.want2)
+			} else {
+				for i := 0; i < len(tc.want2); i++ {
+					if tc.nums[i] != tc.want2[i] {
+						t.Errorf("[value error] name: %v, got: %v, want1: %v, want2: %v", name, got, tc.want1, tc.want2)
+						break
+					}
+				}
+			}
+		})
+	}
+}
+
+func TestMerge(t *testing.T) {
+	type test struct {
+		intervals [][]int
+		want      [][]int
+	}
+
+	tests := map[string]test{
+		"t1": {intervals: [][]int{{1, 3}, {2, 6}, {8, 10}, {15, 18}}, want: [][]int{{1, 6}, {8, 10}, {15, 18}}},
+		"t2": {intervals: [][]int{{1, 4}, {4, 5}}, want: [][]int{{1, 5}}},
+	}
+
+	for name, tc := range tests {
+		got := Merge(tc.intervals)
+		t.Run(name, func(t *testing.T) {
+			if !reflect.DeepEqual(got, tc.want) {
+				t.Errorf("name: %v, got: %v, want: %v", name, got, tc.want)
+			}
+		})
+	}
+}

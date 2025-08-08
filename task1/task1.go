@@ -2,6 +2,7 @@ package task1
 
 import (
 	"slices"
+	"sort"
 	"strconv"
 
 	"github.com/go_task/tools"
@@ -90,4 +91,86 @@ bigLoop:
 	}
 
 	return string(comPre)
+}
+
+// 加一
+func PlusOne(digits []int) []int {
+	length := len(digits)
+	tmpSlice := make([]int, length+1, length+1)
+	tmpNum, extTag := 0, 0
+	for i := length - 1; i >= 0; i-- {
+		if i == length-1 {
+			tmpNum = digits[i] + 1
+		} else {
+			tmpNum = digits[i] + extTag
+		}
+
+		if tmpNum >= 10 {
+			tmpSlice[i+1] = 0
+			extTag = 1
+		} else {
+			tmpSlice[i+1] = tmpNum
+			extTag = 0
+		}
+	}
+	tmpSlice[0] = extTag
+	if tmpSlice[0] > 0 {
+		return tmpSlice
+	} else {
+		return tmpSlice[1:]
+	}
+}
+
+// 删除有序数组中的重复项
+func RemoveDuplicates(nums []int) int {
+	count := 1
+	matched := false
+Loop1:
+	for i := 0; i < len(nums)-1; i++ {
+		matched = false
+	Loop2:
+		for j := i + 1; j < len(nums); j++ {
+			if !slices.Contains(nums[:i+1], nums[j]) {
+				nums[i+1] = nums[j]
+				count++
+				matched = true
+				break Loop2
+			}
+		}
+		if !matched {
+			break Loop1
+		}
+	}
+
+	return count
+}
+
+func Merge(intervals [][]int) [][]int {
+	if len(intervals) == 0 {
+		return nil
+	}
+
+	// 1. 按区间左端点升序排序
+	sort.Slice(intervals, func(i, j int) bool {
+		return intervals[i][0] < intervals[j][0]
+	})
+
+	// 2. 初始化合并结果和当前区间
+	res := [][]int{}
+	curStart, curEnd := intervals[0][0], intervals[0][1]
+
+	// 3. 遍历并合并重叠区间
+	for i := 1; i < len(intervals); i++ {
+		if intervals[i][0] <= curEnd {
+			// 重叠：更新当前区间右边界（取较大值）
+			curEnd = max(curEnd, intervals[i][1])
+		} else {
+			// 不重叠：保存当前区间并重置
+			res = append(res, []int{curStart, curEnd})
+			curStart, curEnd = intervals[i][0], intervals[i][1]
+		}
+	}
+	// 4. 添加最后一个合并区间
+	res = append(res, []int{curStart, curEnd})
+	return res
 }
