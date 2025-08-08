@@ -169,3 +169,26 @@ func TestMerge(t *testing.T) {
 		})
 	}
 }
+
+func TestTwoSum(t *testing.T) {
+	type test struct {
+		nums   []int
+		target int
+		want   []int
+	}
+
+	tests := map[string]test{
+		"t1": {nums: []int{2, 7, 11, 15}, target: 9, want: []int{0, 1}},
+		"t2": {nums: []int{3, 2, 4}, target: 6, want: []int{1, 2}},
+		"t3": {nums: []int{3, 3}, target: 6, want: []int{0, 1}},
+	}
+
+	for name, tc := range tests {
+		got := TwoSum(tc.nums, tc.target)
+		t.Run(name, func(t *testing.T) {
+			if !reflect.DeepEqual(got, tc.want) {
+				t.Errorf("name: %v, got: %v, want: %v", name, got, tc.want)
+			}
+		})
+	}
+}
