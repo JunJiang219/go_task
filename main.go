@@ -8,9 +8,6 @@ import (
 )
 
 func main() {
-	// This is a placeholder for the main function.
-	fmt.Printf("【提示】：控制台分别进入各 task 目录，执行命令：go test -v，会输出各测试用例的结果\n\n")
-
 	fmt.Println("begin----------------------- task1 -----------------------------")
 	slice1 := []int{2, 2, 1}
 	num1 := task1.SingleNumber(slice1)
